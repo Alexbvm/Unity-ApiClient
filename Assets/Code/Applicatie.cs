@@ -13,17 +13,19 @@ public class Applicatie : MonoBehaviour
     private GameObject SpelWereld;
     public GameObject FouteInlogGegevens;
 
-    [SerializeField] TextMeshProUGUI wereld1;
-    [SerializeField] TextMeshProUGUI wereld2;
-    [SerializeField] TextMeshProUGUI wereld3;
-    [SerializeField] TextMeshProUGUI wereld4;
-    [SerializeField] TextMeshProUGUI wereld5;
+    [SerializeField] TMP_InputField wereld1;
+    [SerializeField] TMP_InputField wereld2;
+    [SerializeField] TMP_InputField wereld3;
+    [SerializeField] TMP_InputField wereld4;
+    [SerializeField] TMP_InputField wereld5;
 
     [SerializeField] public string wereld1Id;
     [SerializeField] public string wereld2Id;
     [SerializeField] public string wereld3Id;
     [SerializeField] public string wereld4Id;
     [SerializeField] public string wereld5Id;
+
+    public PrefabLoader PrefabLoader;
 
     public List<string> worldNames;
     public List<string> worldIds;
@@ -118,6 +120,8 @@ public class Applicatie : MonoBehaviour
         wereld4.text = "";
         wereld5.text = "";
 
+        Debug.Log($"Aantal omgevingen geladen: {environmentList.Count}");
+
         environmentList = new List<Environment2D>();
 
         switch (webRequestResponse)
@@ -167,7 +171,7 @@ public class Applicatie : MonoBehaviour
             default:
                 throw new NotImplementedException("No implementation for webRequestResponse of class: " + webRequestResponse.GetType());
         }
-    }
+        }
 
     [ContextMenu("Environment2D/Create")]
     public async void CreateEnvironment2D()
@@ -178,13 +182,14 @@ public class Applicatie : MonoBehaviour
         environment2D.maxLength = 1080;
         environment2D.maxHeight = 1080;
         bool isNameDifferent = true;
-        foreach (Environment2D e in environmentList)
-        {
-            if (e.name == environment2D.name)
-            {
-                isNameDifferent = false;
-            }
-        }
+        //foreach (Environment2D e in environmentList)
+        //{
+        //    if (e.name == environment2D.name)
+        //    {
+        //        isNameDifferent = false;
+        //    }
+        //}
+        Debug.Log($"Nieuwe wereld aangemaakt: {environment2D.name}, ID: {environment2D.id}");
 
         var normalizedName = environment2D.name.Trim();
         if(normalizedName.Length >= 2 && normalizedName.Length <= 25 && isNameDifferent)
@@ -242,6 +247,7 @@ public class Applicatie : MonoBehaviour
     [ContextMenu("Object2D/Read all")]
     public async void ReadObject2Ds()
     {
+        
         IWebRequestReponse webRequestResponse = await object2DApiClient.ReadObject2Ds(object2D.environmentId);
 
         switch (webRequestResponse)
@@ -249,7 +255,11 @@ public class Applicatie : MonoBehaviour
             case WebRequestData<List<Object2D>> dataResponse:
                 List<Object2D> object2Ds = dataResponse.Data;
                 Debug.Log("List of object2Ds: " + object2Ds);
-                object2Ds.ForEach(object2D => Debug.Log(object2D.id));
+                //object2Ds.ForEach(object2D => Debug.Log(object2D.id));
+                foreach (Object2D object2D in object2Ds)
+                {
+                    PrefabLoader.LoadPrefab(object2D);
+                }
                 // TODO: Succes scenario. Show the enviroments in the UI
                 break;
             case WebRequestError errorResponse:
@@ -265,7 +275,7 @@ public class Applicatie : MonoBehaviour
     [ContextMenu("Object2D/Create")]
     public async void CreateObject2D(Object2D giveObject2D)
     {
-        Environment2D e = environmentList[worldButtonHandler.huidigeKnop];
+        Environment2D e = environmentList[worldButtonHandler.huidigeKnop];  
         giveObject2D.environmentId = e.id;
         IWebRequestReponse webRequestResponse = await object2DApiClient.CreateObject2D(giveObject2D);
 

@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class WorldButtonHandler : MonoBehaviour
 {
-    public TextMeshProUGUI wereld1;
-    public TextMeshProUGUI wereld2;
-    public TextMeshProUGUI wereld3;
-    public TextMeshProUGUI wereld4;
-    public TextMeshProUGUI wereld5;
+    public TMP_InputField wereld1;
+    public TMP_InputField wereld2;
+    public TMP_InputField wereld3;
+    public TMP_InputField wereld4;
+    public TMP_InputField wereld5;
 
     public Applicatie applicatie;
 
@@ -35,6 +35,7 @@ public class WorldButtonHandler : MonoBehaviour
     {
         huidigeKnop = 1;
         applicatie.CreateEnvironment2D();
+        applicatie.ReadObject2Ds();
         Debug.Log(wereld1.text);
     }
     public void DeleteKnop1Ingedrukt()
