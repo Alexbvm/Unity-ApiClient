@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.UI;
+using UnityEngine.Device;
 
 public class WorldButtonHandler : MonoBehaviour
 {
@@ -25,7 +26,14 @@ public class WorldButtonHandler : MonoBehaviour
     public Button deleteKnopWereld4;
     public Button deleteKnopWereld5;
 
-
+    private GameObject SpelWereld;
+    private GameObject WereldSelect;
+    public GameObject screens;
+    void Start()
+    {
+        WereldSelect = screens.transform.Find("WereldSelect").gameObject;
+        SpelWereld = screens.transform.Find("SpelWereld").gameObject;
+    }
 
     [SerializeField] private Environment2DApiClient environment;
 
@@ -34,9 +42,10 @@ public class WorldButtonHandler : MonoBehaviour
     public void knop1Ingedrukt()
     {
         huidigeKnop = 1;
-        applicatie.CreateEnvironment2D();
-        applicatie.ReadObject2Ds();
+        applicatie.ReadObject2Ds(0);
         Debug.Log(wereld1.text);
+        WereldSelect.SetActive(false);
+        SpelWereld.SetActive(true);
     }
     public void DeleteKnop1Ingedrukt()
     {
@@ -45,7 +54,9 @@ public class WorldButtonHandler : MonoBehaviour
     public void knop2Ingedrukt()
     {
         huidigeKnop = 2;
-        applicatie.CreateEnvironment2D();
+        applicatie.ReadObject2Ds(1);
+        WereldSelect.SetActive(false);
+        SpelWereld.SetActive(true);
     }
     public void DeleteKnop2Ingedrukt()
     {
@@ -54,7 +65,9 @@ public class WorldButtonHandler : MonoBehaviour
     public void knop3Ingedrukt()
     {
         huidigeKnop = 3;
-        applicatie.CreateEnvironment2D();
+        applicatie.ReadObject2Ds(2);
+        WereldSelect.SetActive(false);
+        SpelWereld.SetActive(true);
     }
     public void DeleteKnop3Ingedrukt()
     {
@@ -63,7 +76,9 @@ public class WorldButtonHandler : MonoBehaviour
     public void knop4Ingedrukt()
     {
         huidigeKnop = 4;
-        applicatie.CreateEnvironment2D();
+        applicatie.ReadObject2Ds(3);
+        WereldSelect.SetActive(false);
+        SpelWereld.SetActive(true);
     }
     public void DeleteKnop4Ingedrukt()
     {
@@ -72,12 +87,46 @@ public class WorldButtonHandler : MonoBehaviour
     public void knop5Ingedrukt()
     {
         huidigeKnop = 5;
-        applicatie.CreateEnvironment2D();
+        applicatie.ReadObject2Ds(4);
+        WereldSelect.SetActive(false);
+        SpelWereld.SetActive(true);
     }
     public void DeleteKnop5Ingedrukt()
     {
         applicatie.DeleteEnvironment2D(applicatie.wereld5Id);
     }
+
+    public void Wereld1AanMaken()
+    {
+        huidigeKnop = 1;
+        applicatie.CreateEnvironment2D();
+    }
+
+    public void Wereld2AanMaken()
+    {
+        huidigeKnop = 2;
+        applicatie.CreateEnvironment2D();
+    }
+
+    public void Wereld3AanMaken()
+    {
+        huidigeKnop = 3;
+        applicatie.CreateEnvironment2D();
+    }
+
+    public void Wereld4AanMaken()
+    {
+        huidigeKnop = 4;
+        applicatie.CreateEnvironment2D();
+    }
+
+    public void Wereld5AanMaken()
+    {
+        huidigeKnop = 5;
+        applicatie.CreateEnvironment2D();
+    }
+
+
     public string wereldAanmaken()
     {
         if(huidigeKnop == 1)

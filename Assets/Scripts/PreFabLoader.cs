@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
 
 public class PrefabLoader : MonoBehaviour
@@ -10,6 +11,8 @@ public class PrefabLoader : MonoBehaviour
     public GameObject Prefab5;
     public GameObject Prefab6;
     private GameObject UsedPrefab;
+
+    public GameObject canvas;
 
     private Vector3 position;
 
@@ -30,16 +33,22 @@ public class PrefabLoader : MonoBehaviour
                 UsedPrefab = Prefab4;
                 break;
             case "Square 5":
-                UsedPrefab = Prefab4;
+                UsedPrefab = Prefab5;
                 break;
             case "Square 6":
-                UsedPrefab = Prefab4;
+                UsedPrefab = Prefab6;
                 break;
+            default:
+                throw new System.NotImplementedException("Geen prefabs gevonden voor prefabId: " + object2D);
         }
         position.x = object2D.positionX;
         position.y = object2D.positionY;
         position.z = 0;
         GameObject newObject = Instantiate(UsedPrefab, position, Quaternion.identity);
+        DiceGame diceGame = newObject.GetComponent<DiceGame>();
+        diceGame.canvas = canvas;
+        diceGame.isDragging = false;
         Debug.Log("Object Geplaatst");
+
     }
 }

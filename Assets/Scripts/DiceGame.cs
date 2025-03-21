@@ -9,7 +9,7 @@ public class DiceGame : MonoBehaviour
 {
     public Transform trans;
 
-    private bool isDragging = true;
+    public bool isDragging = true;
     public GameObject canvas;
 
     public void StartDragging()
@@ -37,6 +37,7 @@ public class DiceGame : MonoBehaviour
 
         if (!isDragging)
         {
+
             // Stopped dragging. Add any logic here that you need for this scenario.
         }
     }

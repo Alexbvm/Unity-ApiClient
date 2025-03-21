@@ -32,7 +32,10 @@ public class Applicatie : MonoBehaviour
     public int currentEnvironment;
     public WorldButtonHandler worldButtonHandler;
 
-    public List<Environment2D> environmentList; 
+    public string LoadedWorldId;
+
+    public List<Environment2D> environmentList;
+    private string loadedEnvironmentId;
 
     [Header("Test data")]
     public User user;
@@ -182,13 +185,13 @@ public class Applicatie : MonoBehaviour
         environment2D.maxLength = 1080;
         environment2D.maxHeight = 1080;
         bool isNameDifferent = true;
-        //foreach (Environment2D e in environmentList)
-        //{
-        //    if (e.name == environment2D.name)
-        //    {
-        //        isNameDifferent = false;
-        //    }
-        //}
+        foreach (Environment2D e in environmentList)
+        {
+            if (e.name == environment2D.name)
+            {
+                isNameDifferent = false;
+            }
+        }
         Debug.Log($"Nieuwe wereld aangemaakt: {environment2D.name}, ID: {environment2D.id}");
 
         var normalizedName = environment2D.name.Trim();
@@ -204,8 +207,6 @@ public class Applicatie : MonoBehaviour
                     // TODO: Handle succes scenario.
                     Debug.Log("wereld aanmaken succes!");
                     ReadEnvironment2Ds();
-                    WereldSelect.SetActive(false);
-                    SpelWereld.SetActive(true);
                     break;
                 case WebRequestError errorResponse:
                     string errorMessage = errorResponse.ErrorMessage;
@@ -240,15 +241,27 @@ public class Applicatie : MonoBehaviour
         }
     }
 
+    public void LoadEnvironments(int buttonIndex)
+    {
+        Environment2D e = environmentList[buttonIndex];
+        LoadedWorldId = e.id;
+        //if (LoadedWorldId != null)
+        //{
+        //    WereldSelect.SetActive(false);
+        //    SpelWereld.SetActive(true);     
+        //}
+    }
+
     #endregion Environment
 
     #region Object2D
 
     [ContextMenu("Object2D/Read all")]
-    public async void ReadObject2Ds()
+    public async void ReadObject2Ds(int environmentIndex)
     {
-        
-        IWebRequestReponse webRequestResponse = await object2DApiClient.ReadObject2Ds(object2D.environmentId);
+        string environmentId = environmentList[0].id;
+        loadedEnvironmentId = environmentId;
+        IWebRequestReponse webRequestResponse = await object2DApiClient.ReadObject2Ds(environmentId);
 
         switch (webRequestResponse)
         {
@@ -275,8 +288,8 @@ public class Applicatie : MonoBehaviour
     [ContextMenu("Object2D/Create")]
     public async void CreateObject2D(Object2D giveObject2D)
     {
-        Environment2D e = environmentList[worldButtonHandler.huidigeKnop];  
-        giveObject2D.environmentId = e.id;
+        //Environment2D e = environmentList[worldButtonHandler.huidigeKnop];  
+        giveObject2D.environmentId = loadedEnvironmentId;
         IWebRequestReponse webRequestResponse = await object2DApiClient.CreateObject2D(giveObject2D);
 
         switch (webRequestResponse)

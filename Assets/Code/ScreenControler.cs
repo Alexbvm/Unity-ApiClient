@@ -9,8 +9,21 @@ public class ScreenControler : MonoBehaviour
     public GameObject WereldSelect;
 
     public Button exitWereld;
+
+    public void ClearPrefabs()
+    {
+        DiceGame[] draggableObjects = FindObjectsByType<DiceGame>(FindObjectsSortMode.None);
+
+        foreach (DiceGame draggable in draggableObjects)
+        {
+            Destroy(draggable.gameObject);
+        }
+
+    }
+
     public void ExitWereld()
     {
+        ClearPrefabs();   
         SpelWereld.SetActive(false);
         WereldSelect.SetActive(true);
     }
