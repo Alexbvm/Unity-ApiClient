@@ -10348,6 +10348,7 @@ MonoBehaviour:
   Prefab4: {fileID: 8655933473841453104, guid: 34b9a6be0a6067445a2028282172fce8, type: 3}
   Prefab5: {fileID: 8655933473841453104, guid: 803beff01afe10f4d85de716b550c7a4, type: 3}
   Prefab6: {fileID: 8655933473841453104, guid: 2b9c986647bb38a48a6f2d540aff45a1, type: 3}
+  canvas: {fileID: 2061852306}
 --- !u!4 &1798145131
 Transform:
   m_ObjectHideFlags: 0
@@ -12852,7 +12853,7 @@ GameObject:
   - component: {fileID: 2110864631}
   m_Layer: 0
   m_Name: prefab
-  m_TagString: Untagged
+  m_TagString: Prefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

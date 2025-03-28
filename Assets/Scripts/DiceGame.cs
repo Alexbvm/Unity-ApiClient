@@ -12,6 +12,8 @@ public class DiceGame : MonoBehaviour
     public bool isDragging = true;
     public GameObject canvas;
 
+    public Object2D giveObject;
+
     public void StartDragging()
     {
         isDragging = true;
@@ -34,10 +36,14 @@ public class DiceGame : MonoBehaviour
     private void OnMouseUpAsButton()
     {
         isDragging = !isDragging;
-
+        Applicatie applicatie = FindFirstObjectByType<Applicatie>();
+ 
         if (!isDragging)
         {
+            giveObject.positionX = trans.position.x;
+            giveObject.positionY = trans.position.y;
 
+            applicatie.CreateObject2D(giveObject);
             // Stopped dragging. Add any logic here that you need for this scenario.
         }
     }
